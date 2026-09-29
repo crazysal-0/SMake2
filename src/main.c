@@ -54,8 +54,7 @@ int main(int argc, char** argv) {
   }
 
   luaL_openlibs(lua_state);
-
-  lua_register(lua_state, "target_executable", smake_target_executable);
+  smake_register_api(lua_state);
 
   if (luaL_dostring(lua_state, smake_lua) != LUA_OK) {
     fprintf(stderr, "error: %s\n", lua_tostring(lua_state, -1));
