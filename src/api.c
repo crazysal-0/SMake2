@@ -57,27 +57,24 @@ int smake_target_executable(lua_State* L) {
 
   luaL_checktype(L, 2, LUA_TTABLE);
   luaL_checktype(L, 3, LUA_TTABLE);
+  luaL_checktype(L, 4, LUA_TTABLE);
 
-  const char* compiler = luaL_checkstring(L, 4);
+  const char* compiler = luaL_checkstring(L, 5);
 
   lua_newtable(L);
 
   int command = lua_gettop(L);
   int index = 1;
 
-  // compiler
   lua_pushstring(L, compiler);
   lua_rawseti(L, command, index++);
 
-  // -o
   lua_pushstring(L, "-o");
   lua_rawseti(L, command, index++);
 
-  // output name
   lua_pushstring(L, name);
   lua_rawseti(L, command, index++);
 
-  // sources
   lua_pushnil(L);
 
   while (lua_next(L, 2) != 0) {
@@ -87,7 +84,6 @@ int smake_target_executable(lua_State* L) {
     lua_pop(L, 1);
   }
 
-  // flags
   lua_pushnil(L);
 
   while (lua_next(L, 3) != 0) {
@@ -97,7 +93,15 @@ int smake_target_executable(lua_State* L) {
     lua_pop(L, 1);
   }
 
-  // Call smake_run_cmd(command)
+  lua_pushnil(L);
+
+  while (lua_next(L, 4) != 0) {
+    lua_pushvalue(L, -1);
+    lua_rawseti(L, command, index++);
+
+    lua_pop(L, 1);
+  }
+
   lua_pushcfunction(L, smake_run_cmd);
   lua_pushvalue(L, command);
   lua_call(L, 1, 0);
