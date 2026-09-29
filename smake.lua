@@ -8,13 +8,11 @@ CFLAGS = {
     "-I/usr/include/lua5.4"
 }
 
-LDFLAGS = {
-    "-llua5.4"
-}
+LDFLAGS = { "-llua5.4" }
 
 SOURCES = {
     "src/main.c",
-"src/api.c"
+    "src/api.c"
 }
 
 target_executable("bin/smake", SOURCES, CFLAGS, LDFLAGS, CC)
