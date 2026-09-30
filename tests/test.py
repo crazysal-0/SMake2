@@ -36,7 +36,7 @@ for test in tests:
         text=True,
     )
 
-    name = os.path.basename(test)
+    name = os.path.basename(os.path.dirname(test))
 
     if result.returncode == 0:
         print(f"{GREEN}PASS{RESET} {name}")
